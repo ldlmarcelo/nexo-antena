@@ -1,7 +1,8 @@
 package org.nexo.antena
 
-import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.provider.Settings
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,6 +25,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var prefs: AppPreferences
+
+    // Conjunto en memoria de paquetes seleccionados
+    private val selectedPackages = mutableSetOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +48,14 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         binding.btnGrantPermission.setOnClickListener {
             abrirAjustesNotificaciones()
+        }
+
+        binding.switchForwardAll.setOnCheckedChangeListener { _, isChecked ->
+            binding.layoutFilterContainer.visibility = if (isChecked) View.GONE else View.VISIBLE
+        }
+
+        binding.btnSelectApps.setOnClickListener {
+            mostrarDialogoSeleccionApps()
         }
 
         binding.btnSave.setOnClickListener {
@@ -84,35 +97,88 @@ class MainActivity : AppCompatActivity() {
     private fun cargarConfiguracion() {
         binding.etWebhookUrl.setText(prefs.webhookUrl)
         binding.etApiKey.setText(prefs.apiKey)
-        binding.etCustomPackages.setText(prefs.customPackages)
 
-        binding.cbBbva.isChecked = prefs.isAppChecked("bbva", true)
-        binding.cbMercadoPago.isChecked = prefs.isAppChecked("mercadopago", true)
-        binding.cbPersonalPay.isChecked = prefs.isAppChecked("personalpay", true)
-        binding.cbGalicia.isChecked = prefs.isAppChecked("galicia", false)
-        binding.cbSantander.isChecked = prefs.isAppChecked("santander", false)
-        binding.cbBna.isChecked = prefs.isAppChecked("bna", false)
-        binding.cbBrubank.isChecked = prefs.isAppChecked("brubank", false)
-        binding.cbUala.isChecked = prefs.isAppChecked("uala", false)
-        binding.cbCuentaDni.isChecked = prefs.isAppChecked("cuentadni", false)
-        binding.cbModo.isChecked = prefs.isAppChecked("modo", false)
+        val forwardAll = prefs.forwardAll
+        binding.switchForwardAll.isChecked = forwardAll
+        binding.layoutFilterContainer.visibility = if (forwardAll) View.GONE else View.VISIBLE
+
+        selectedPackages.clear()
+        selectedPackages.addAll(prefs.getMonitoredPackages())
+
+        actualizarResumenAppsSeleccionadas()
+    }
+
+    private fun actualizarResumenAppsSeleccionadas() {
+        val count = selectedPackages.size
+        if (count == 0) {
+            binding.tvSelectedAppsSummary.text = "Ninguna aplicación seleccionada"
+        } else {
+            binding.tvSelectedAppsSummary.text = "$count aplicaciones seleccionadas para reenvío"
+        }
+    }
+
+    private data class AppItem(val label: String, val packageName: String)
+
+    private fun mostrarDialogoSeleccionApps() {
+        val pm = packageManager
+        val installedApps = pm.getInstalledApplications(PackageManager.GET_META_DATA)
+
+        // Filtramos apps visibles que tengan intent de lanzamiento o sean relevantes
+        val appItems = installedApps
+            .filter { app ->
+                // Omitir esta misma app
+                app.packageName != packageName &&
+                (pm.getLaunchIntentForPackage(app.packageName) != null ||
+                 (app.flags and ApplicationInfo.FLAG_SYSTEM) == 0)
+            }
+            .map { app ->
+                val label = pm.getApplicationLabel(app).toString()
+                AppItem(label = label, packageName = app.packageName)
+            }
+            .sortedBy { it.label.lowercase() }
+
+        if (appItems.isEmpty()) {
+            Toast.makeText(this, "No se detectaron aplicaciones instaladas", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val labels = appItems.map { "${it.label} (${it.packageName})" }.toTypedArray()
+        val checkedItems = appItems.map { selectedPackages.contains(it.packageName) }.toBooleanArray()
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Seleccionar Aplicaciones")
+            .setMultiChoiceItems(labels, checkedItems) { _, which, isChecked ->
+                val pkg = appItems[which].packageName
+                if (isChecked) {
+                    selectedPackages.add(pkg)
+                } else {
+                    selectedPackages.remove(pkg)
+                }
+            }
+            .setPositiveButton("Listo") { _, _ ->
+                actualizarResumenAppsSeleccionadas()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     private fun guardarConfiguracion() {
         prefs.webhookUrl = binding.etWebhookUrl.text?.toString() ?: ""
         prefs.apiKey = binding.etApiKey.text?.toString() ?: ""
-        prefs.customPackages = binding.etCustomPackages.text?.toString() ?: ""
+        prefs.forwardAll = binding.switchForwardAll.isChecked
 
-        prefs.setPackageMonitored("bbva", binding.cbBbva.isChecked)
-        prefs.setPackageMonitored("mercadopago", binding.cbMercadoPago.isChecked)
-        prefs.setPackageMonitored("personalpay", binding.cbPersonalPay.isChecked)
-        prefs.setPackageMonitored("galicia", binding.cbGalicia.isChecked)
-        prefs.setPackageMonitored("santander", binding.cbSantander.isChecked)
-        prefs.setPackageMonitored("bna", binding.cbBna.isChecked)
-        prefs.setPackageMonitored("brubank", binding.cbBrubank.isChecked)
-        prefs.setPackageMonitored("uala", binding.cbUala.isChecked)
-        prefs.setPackageMonitored("cuentadni", binding.cbCuentaDni.isChecked)
-        prefs.setPackageMonitored("modo", binding.cbModo.isChecked)
+        // Incorporar los paquetes manuales si fueron ingresados
+        val manual = binding.etCustomPackages.text?.toString() ?: ""
+        if (manual.isNotBlank()) {
+            manual.split(",").forEach {
+                val pkg = it.trim()
+                if (pkg.isNotEmpty()) selectedPackages.add(pkg)
+            }
+            binding.etCustomPackages.setText("")
+        }
+
+        prefs.setMonitoredPackages(selectedPackages)
+        actualizarResumenAppsSeleccionadas()
 
         Toast.makeText(this, "Configuración guardada correctamente", Toast.LENGTH_SHORT).show()
     }
