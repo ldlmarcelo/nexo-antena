@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">NEXO Antena</string>
+    <string name="service_name">NEXO Antena Service</string>
+    <string name="service_notification_title">NEXO Antena Activa</string>
+    <string name="service_notification_text">Reenviando notificaciones seleccionadas a tu servidor soberano.</string>
+    <string name="status_permission_granted">✅ Acceso a notificaciones habilitado</string>
+    <string name="status_permission_missing">⚠️ Falta permiso de acceso a notificaciones</string>
+    <string name="btn_grant_permission">Habilitar Permiso en Sistema</string>
+    <string name="hint_webhook_url">URL del Webhook (ej: https://tu-vps.com/api/inbox/webhook)</string>
+    <string name="hint_api_key">Clave Secreta (X-Inbox-Key)</string>
+    <string name="btn_save">Guardar Configuración</string>
+    <string name="btn_test">Probar Conexión (Ping)</string>
+    <string name="title_select_apps">Aplicaciones Monitoreadas</string>
+</resources>

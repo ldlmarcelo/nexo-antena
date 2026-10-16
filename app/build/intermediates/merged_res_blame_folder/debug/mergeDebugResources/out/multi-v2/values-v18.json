@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "org.nexo.antena.app-mergeDebugResources-28:/values-v18/values-v18.xml",
+            "map": [
+                {
+                    "source": "/home/marcelo/.gradle/caches/9.3.1/transforms/2ac9056f94a661e393ee1cead21b163c/transformed/appcompat-1.6.1/res/values-v18/values-v18.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "48",
+                        "endOffsets": "99"
+                    }
+                }
+            ]
+        }
+    ]
+}
