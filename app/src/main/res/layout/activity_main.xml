@@ -39,6 +39,7 @@
                 app:cardBackgroundColor="@color/surface"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
+                app:strokeColor="@color/divider"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -67,9 +68,10 @@
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnGrantPermission"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
+                        android:minHeight="48dp"
                         android:text="@string/btn_grant_permission" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -82,6 +84,7 @@
                 app:cardBackgroundColor="@color/surface"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
+                app:strokeColor="@color/divider"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -98,65 +101,88 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Destino directo sin intermediarios ni nube de terceros."
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp" />
+
+                    <!-- Input URL -->
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:hint="@string/hint_webhook_url">
+                        android:hint="@string/hint_webhook_url"
+                        app:boxStrokeColor="@color/primary"
+                        app:hintTextColor="@color/primary">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etWebhookUrl"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textUri"
+                            android:textColor="@color/text_primary"
+                            android:textColorHint="@color/text_secondary"
                             android:textSize="14sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <!-- Input API Key -->
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:hint="@string/hint_api_key">
+                        android:hint="@string/hint_api_key"
+                        app:boxStrokeColor="@color/primary"
+                        app:endIconMode="password_toggle"
+                        app:hintTextColor="@color/primary">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etApiKey"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPassword"
+                            android:textColor="@color/text_primary"
+                            android:textColorHint="@color/text_secondary"
                             android:textSize="14sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <LinearLayout
+                    <!-- Botones Apilados con Ancho Completo (Anti-Colapso) -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSave"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:orientation="horizontal">
+                        android:minHeight="48dp"
+                        android:text="@string/btn_save"
+                        android:textAllCaps="false"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnSave"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/btn_save" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnTest"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:minHeight="48dp"
+                        android:text="@string/btn_test"
+                        android:textAllCaps="false"
+                        android:textSize="14sp" />
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnTest"
-                            style="@style/Widget.MaterialComponents.Button.TextButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="@string/btn_test" />
-                    </LinearLayout>
-
+                    <!-- Resultado de Test -->
                     <TextView
                         android:id="@+id/tvTestResult"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="12dp"
+                        android:lineSpacingExtra="2dp"
+                        android:padding="8dp"
                         android:textColor="@color/text_secondary"
-                        android:textSize="12sp"
+                        android:textSize="13sp"
                         android:visibility="gone" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -169,6 +195,7 @@
                 app:cardBackgroundColor="@color/surface"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
+                app:strokeColor="@color/divider"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -213,13 +240,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="@string/btn_select_installed_apps" />
+                            android:minHeight="48dp"
+                            android:text="@string/btn_select_installed_apps"
+                            android:textAllCaps="false" />
 
                         <TextView
                             android:id="@+id/tvSelectedAppsSummary"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="8dp"
                             android:text="Ninguna aplicación seleccionada"
                             android:textColor="@color/text_secondary"
                             android:textSize="13sp" />
@@ -229,12 +258,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:hint="@string/hint_manual_packages">
+                            android:hint="@string/hint_manual_packages"
+                            app:boxStrokeColor="@color/primary"
+                            app:hintTextColor="@color/primary">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/etCustomPackages"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/text_primary"
+                                android:textColorHint="@color/text_secondary"
                                 android:textSize="13sp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
