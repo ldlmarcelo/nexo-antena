@@ -1,4 +1,4 @@
-MIT License with Ethical Use & Anti-Spyware Rider
+MIT License
 
 Copyright (c) 2026 Marcelo / NEXO Sovereign Ecosystem
 
@@ -19,41 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-================================================================================
-CLÁUSULA DE USO ÉTICO, PRIVACIDAD Y DESCARGO DE RESPONSABILIDAD (ANTI-SPYWARE)
-================================================================================
-
-1. PRINCIPIO DE SOBERANÍA Y NO-INTERMEDIACIÓN (ZERO-KNOWLEDGE):
-Este software ha sido diseñado como una herramienta de automatización personal
-punto a punto (P2P). Los autores y mantenedores de NEXO Antena NO operamos
-servidores intermedios, NO recopilamos telemetría, NO almacenamos registros ni
-poseemos la capacidad técnica de acceder, interceptar, almacenar o leer las
-notificaciones emitidas por los dispositivos en los que se ejecute la aplicación.
-El tráfico de datos viaja de forma directa y exclusiva desde el dispositivo del
-usuario hacia el servidor (webhook) configurado por él mismo.
-
-2. CONSENTIMIENTO OBLIGATORIO Y PROHIBICIÓN DE STALKERWARE / ESPIONAJE:
-Este software está destinado ÚNICA Y EXCLUSIVAMENTE para la autogestión,
-productividad y automatización personal en dispositivos de propiedad legítima del
-usuario o con el consentimiento expreso, previo e informado del propietario del
-dispositivo.
-QUEDA TERMINANTEMENTE PROHIBIDA su instalación oculta, encubierta o no consentida
-en dispositivos de terceros para fines de vigilancia, monitoreo, control, espionaje
-o interceptación de comunicaciones privadas (Stalkerware / Spyware).
-
-3. ADVERTENCIA LEGAL Y TIPIFICACIÓN PENAL:
-La interceptación no autorizada de comunicaciones, la violación de secretos y el
-acceso ilegítimo a sistemas informáticos constituyen delitos graves sancionados
-por las leyes penales de la República Argentina (Código Penal, Arts. 153 y 153 bis;
-Ley de Protección de Datos Personales 25.326) y normativas internacionales
-equivalentes (GDPR, Wiretap Act, Convenio de Budapest sobre Ciberdelincuencia).
-
-4. EXENCIÓN ABSOLUTA DE RESPONSABILIDAD:
-Cualquier persona que compile, instale o utilice este software asume de manera
-personal, plena y exclusiva la responsabilidad civil, comercial y penal por los
-actos u omisiones cometidos mediante su empleo.
-Los autores, mantenedores y colaboradores de NEXO Antena quedan total y
-expresamente deslindados de cualquier daño directo, indirecto, incidental o
-perjuicio legal derivado del uso ilícito, malicioso, negligente o indebido de
-esta herramienta por parte de terceros.

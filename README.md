@@ -2,7 +2,8 @@
 
 > **Relé Universal, Frugal y Punto a Punto (P2P) para la Captura y Despacho de Eventos de Notificación en Android hacia Servidores Propios.**
 
-[![Licencia](https://img.shields.io/badge/Licencia-MIT%20%2B%20Anti--Spyware-blue.svg)](LICENSE)
+[![Licencia](https://img.shields.io/badge/Licencia-MIT%20Pura%20(OSI)-blue.svg)](LICENSE)
+[![Legal](https://img.shields.io/badge/Aviso-Ético%20%2B%20Anti--Stalkerware-red.svg)](LEGAL.md)
 [![Android](https://img.shields.io/badge/Plataforma-Android%208.0%2B-green.svg)]()
 [![Zero Cloud](https://img.shields.io/badge/Nube-Zero%20Terceros%20(P2P)-success.svg)]()
 
@@ -45,7 +46,7 @@ Este software ha sido diseñado exclusivamente para la productividad y autogesti
 2. **Responsabilidad Legal del Operador:**
    La instalación encubierta o no consentida de este software en dispositivos ajenos para vigilar, espiar o interceptar comunicaciones privadas constituye un **delito penal grave** sancionado por las leyes de la República Argentina (Código Penal, Arts. 153 y 153 bis; Ley 25.326 de Protección de Datos Personales) y marcos jurídicos internacionales (GDPR, Wiretap Act, Convenio de Budapest sobre Ciberdelincuencia).
 3. **Exención de Responsabilidad:**
-   Los autores y mantenedores del proyecto deslindan toda responsabilidad civil o penal derivada del uso ilícito, malicioso o no autorizado que terceros hagan de este código fuente o sus binarios. Consulta el texto íntegro en [LICENSE](LICENSE).
+   Los autores y mantenedores del proyecto deslindan toda responsabilidad civil o penal derivada del uso ilícito, malicioso o no autorizado que terceros hagan de este código fuente o sus binarios. Consulta el texto íntegro en [LEGAL.md](LEGAL.md).
 
 ---
 
@@ -71,6 +72,8 @@ Cada notificación despachada se envía como un objeto JSON agnóstico con la si
 
 ```json
 {
+  "event_id": "a1b2c3d4-e5f6-7890-abcd-ef0123456789",
+  "notification_key": "0|com.ejemplo.app|1001|null|10234",
   "package_name": "com.ejemplo.app",
   "title": "Alerta de Evento",
   "text": "Descripción o contenido de la notificación emitida",
@@ -81,6 +84,13 @@ Cada notificación despachada se envía como un objeto JSON agnóstico con la si
   }
 }
 ```
+
+### Campos Nucleares:
+- `event_id`: Identificador único UUID v4 generado por la antena. Permite deduplicación e idempotencia total en el servidor ante reintentos de red.
+- `notification_key`: Clave nativa del sistema Android (`sbn.key`). Permite al backend distinguir entre notificaciones nuevas y actualizaciones de una misma notificación previa.
+- `package_name`: Identificador de la aplicación emisora.
+- `title` y `text`: Contenido textual legible extraído.
+- `timestamp`: Marca de tiempo Unix en milisegundos (`postTime`).
 
 ### Cabeceras HTTP Enviadas:
 - `Content-Type: application/json`
@@ -111,6 +121,8 @@ Requisitos:
 ```bash
 # Clonar el repositorio
 git clone https://github.com/ldlmarcelo/nexo-antena.git
+
+# Ingresar al directorio
 cd nexo-antena
 
 # Compilar APK Debug
@@ -132,4 +144,4 @@ Todas las marcas comerciales, nombres de productos, logotipos y nombres de aplic
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia **MIT** con la **Cláusula Adicional de Uso Ético, Privacidad y Anti-Spyware**. Consulta [LICENSE](LICENSE) para más detalles.
+Este proyecto está bajo la Licencia **MIT Canónica (OSI-Approved)**. Consulta [LICENSE](LICENSE) para más detalles. Para los compromisos éticos de privacidad, consulta [LEGAL.md](LEGAL.md).

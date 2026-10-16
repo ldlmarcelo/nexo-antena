@@ -75,11 +75,14 @@ class NotificationRelayService : NotificationListenerService() {
             return
         }
 
+        val notificationKey = sbn.key ?: ""
+
         serviceScope.launch {
             despacharNotificacion(
                 targetUrl = targetUrl,
                 apiKey = apiKey,
                 packageName = packageName,
+                notificationKey = notificationKey,
                 title = title,
                 text = finalContent,
                 timestamp = timestamp
@@ -91,6 +94,7 @@ class NotificationRelayService : NotificationListenerService() {
         targetUrl: String,
         apiKey: String,
         packageName: String,
+        notificationKey: String,
         title: String,
         text: String,
         timestamp: Long
@@ -110,7 +114,11 @@ class NotificationRelayService : NotificationListenerService() {
                 }
             }
 
+            val eventId = java.util.UUID.randomUUID().toString()
+
             val payload = JSONObject().apply {
+                put("event_id", eventId)
+                put("notification_key", notificationKey)
                 put("package_name", packageName)
                 put("title", title)
                 put("text", text)
